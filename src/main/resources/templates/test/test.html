@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="UTF-8">
+    <!-- 引入vue -->
+    <script src="../plugins/vue.min.js"></script>
+    <!-- 引入jquery -->
+    <script src="../plugins/jquery.min.js"></script>
+    <!-- 引入样式 -->
+    <link rel="stylesheet"
+          href="../plugins/element/index.css">
+    <!--引入组件库-->
+    <script src="../plugins/element/index.js"></script>
+    <title>Insert title here</title>
+</head>
+<body>
+<div id="rrapp">
+    <div v-show="showlist">aaaa<button @click="add">隐藏</button>
+        <el-row>
+            <el-button>默认按钮</el-button>
+            <el-button type="primary">主要按钮</el-button>
+            <el-button type="success">成功按钮</el-button>
+            <el-button type="info">信息按钮</el-button>
+            <el-button type="warning">警告按钮</el-button>
+            <el-button type="danger">危险按钮</el-button>
+        </el-row>
+
+        <el-row>
+            <el-button plain>朴素按钮</el-button>
+            <el-button type="primary" plain>主要按钮</el-button>
+            <el-button type="success" plain>成功按钮</el-button>
+            <el-button type="info" plain>信息按钮</el-button>
+            <el-button type="warning" plain>警告按钮</el-button>
+            <el-button type="danger" plain>危险按钮</el-button>
+        </el-row>
+
+        <el-row>
+            <el-button round>圆角按钮</el-button>
+            <el-button type="primary" round>主要按钮</el-button>
+            <el-button type="success" round>成功按钮</el-button>
+            <el-button type="info" round>信息按钮</el-button>
+            <el-button type="warning" round>警告按钮</el-button>
+            <el-button type="danger" round>危险按钮</el-button>
+        </el-row>
+
+        <el-row>
+            <el-button icon="el-icon-search" circle></el-button>
+            <el-button type="primary" icon="el-icon-edit" circle></el-button>
+            <el-button type="success" icon="el-icon-check" circle></el-button>
+            <el-button type="info" icon="el-icon-message" circle></el-button>
+            <el-button type="warning" icon="el-icon-star-off" circle></el-button>
+            <el-button type="danger" icon="el-icon-delete" circle></el-button>
+        </el-row>
+        <el-row>
+            <el-button type="primary" icon="el-icon-search" @click ="query">查询</el-button>
+            <el-button type="info" icon="el-icon-edit" @click ="edit">编辑</el-button>
+            <el-button type="danger" icon="el-icon-delete" @click ="del">删除</el-button>
+        </el-row>
+        <el-row>
+            <el-table
+                    ref="multipleTable"
+                    :data="tableData"
+                    tooltip-effect="dark"
+                    style="width: 100%"
+                    @selection-change="handleSelectionChange">
+                <el-table-column type="selection" width="55"></el-table-column>
+                <el-table-column prop="username" label="用户名称"></el-table-column>
+                <el-table-column prop="cname" label="用户昵称"></el-table-column>
+                <el-table-column prop="deptId" label="部门id"></el-table-column>
+                <el-table-column prop="createTime" label="创建时间"></el-table-column>
+            </el-table>
+        </el-row>
+    </div>
+</div>
+<button type="button"οnclick="update()"class="admin">修改</button>
+<button type="button"οnclick="del()"class="admin">删除</button>
+</body>
+<style>
+    .admin{
+        display: none
+    }
+</style>
+<script type="text/javascript">
+    //测试vue
+    $(function(){
+        console.log("asd");
+        $.ajax({
+            type: "GET",
+            url: "/sysUser/pageList",
+            data: {pageSize: 3, pageNo: 1, username: 'aaaaaaaaaaa'},
+            contentType: "application/json",
+            success: function(r){
+                console.log(r);
+                for(var i=0;i<r.length;i++){
+                    console.log(r[i]);
+                    if(r[i]==="admin"){
+                        console.log("admin用户");
+                        $(".admin").css("display","block");
+                    }
+                }
+            }
+        });
+    });
+    var vm = new Vue({
+        el : '#rrapp',
+        data : {
+            showlist: true,
+            tableData: [],
+            multipleSelection: []
+        },
+        methods : {
+            add:function(){
+                alert("asd");
+                vm.showlist = false;
+            },
+            edit: function() {
+                console.log('编辑');
+                console.log(JSON.stringify(this.multipleSelection));
+            },
+            del: function() {
+                console.log('删除');
+                console.log(JSON.stringify(this.multipleSelection));
+            },
+            query: function () {
+                console.log("---查询----");
+                $.ajax({
+                    type: "GET",
+                    url: "/sysUser/pageList",
+                    data: {pageSize: 3, pageNo: 1, username: 'aaaaaaaaaaa'},
+                    contentType: "application/json",
+                    success: function(r){
+                        vm.tableData=r.data.records;
+                    }
+                });
+            },
+            handleSelectionChange(val) {
+                console.log(JSON.stringify(val));
+                this.multipleSelection = val;
+            }
+        }
+    });
+</script>
+</html>

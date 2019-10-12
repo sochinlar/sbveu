@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sbveu.demo.dao.SysUserMapper">
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, tbse02_id, username, password, cname, status, phone, mail, avatar, dept_id, video_flag, report_flag, create_emp, create_time, update_emp, update_time, version
+    </sql>
+
+</mapper>
